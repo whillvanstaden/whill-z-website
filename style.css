@@ -9,3 +9,6 @@
 .brand img{filter:brightness(0) invert(1);} 
 
 .release-status{font-size:12px;letter-spacing:1px;margin:14px 0 0}.is-live .release-status{font-weight:bold;color:#20743b}
+
+/* Platform icons and wrapping links for small screens. */
+.platforms{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 28px}.platforms a{display:inline-flex;align-items:center;gap:9px;min-height:44px}.platforms svg{width:22px;height:22px;flex:none}.platforms a span{padding:0;color:inherit}@media(max-width:700px){.platforms{gap:10px 20px}}
