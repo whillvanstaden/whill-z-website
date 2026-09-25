@@ -1,47 +1,48 @@
 (() => {
   const widget = document.querySelector('.follow-widget');
+  if (!widget) return;
   const toggle = widget.querySelector('.follow-toggle');
   const panel = widget.querySelector('.follow-panel');
-  let pinned = false;
+  let automatic = false;
   let autoOpened = false;
-  function openAtBottom() {
-    if (autoOpened) return;
-    const remaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
-    if (remaining <= 40) {
-      autoOpened = true;
-      pinned = true;
-      setOpen(true);
-    }
-  }
-  window.addEventListener('scroll', openAtBottom, { passive: true });
-  window.addEventListener('resize', openAtBottom);
-  window.addEventListener('load', openAtBottom);
-  window.addEventListener('pageshow', openAtBottom);
   function setOpen(open) {
     panel.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
     toggle.querySelector('span').textContent = open ? '−' : '+';
   }
+  function close() {
+    automatic = false;
+    setOpen(false);
+  }
+  function checkBottom() {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const atBottom = maxScroll > 40 && window.scrollY > 0 && maxScroll - window.scrollY <= 40;
+    if (automatic && !atBottom) close();
+    if (atBottom && !autoOpened) {
+      autoOpened = true;
+      if (panel.hidden) {
+        automatic = true;
+        setOpen(true);
+      }
+    }
+  }
+  window.addEventListener('scroll', checkBottom, { passive: true });
+  window.addEventListener('resize', checkBottom);
+  window.addEventListener('load', checkBottom);
+  window.addEventListener('pageshow', checkBottom);
   toggle.addEventListener('click', () => {
-    pinned = !pinned;
-    setOpen(pinned);
-  });
-  widget.addEventListener('pointerenter', event => {
-    if (event.pointerType === 'mouse' && matchMedia('(hover: hover)').matches) setOpen(true);
-  });
-  widget.addEventListener('pointerleave', event => {
-    if (event.pointerType === 'mouse' && !pinned && !widget.contains(document.activeElement)) setOpen(false);
+    automatic = false;
+    setOpen(panel.hidden);
   });
   widget.addEventListener('focusout', event => {
-    if (!widget.contains(event.relatedTarget)) { pinned = false; setOpen(false); }
+    if (!widget.contains(event.relatedTarget)) close();
   });
   document.addEventListener('click', event => {
-    if (!widget.contains(event.target)) { pinned = false; setOpen(false); }
+    if (!widget.contains(event.target)) close();
   });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !panel.hidden) {
-      pinned = false;
-      setOpen(false);
+      close();
       toggle.focus();
     }
   });
