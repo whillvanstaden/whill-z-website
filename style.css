@@ -12,3 +12,6 @@
 
 /* Platform icons and wrapping links for small screens. */
 .platforms{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 28px}.platforms a{display:inline-flex;align-items:center;gap:9px;min-height:44px}.platforms svg{width:22px;height:22px;flex:none}.platforms a span{padding:0;color:inherit}@media(max-width:700px){.platforms{gap:10px 20px}}
+
+/* Music platform chooser. */
+.music .release-names{margin-bottom:36px}.listen-button{display:inline-block;background:#111;color:#fff;padding:17px 32px;margin:12px 0 0;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:2px}.listen-button:hover{background:#502078}.listening-platforms{max-width:940px;margin:34px auto 0;padding:28px 20px;background:#080a0c;color:#fff;scroll-margin-top:30px}.listening-platforms h3{font-family:Arial,sans-serif;font-size:12px;letter-spacing:3px;margin:0 0 15px}.listening-platforms .platforms{margin:0}.listening-platforms a:hover{color:#cf91ff}
