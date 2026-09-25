@@ -3,6 +3,20 @@
   const toggle = widget.querySelector('.follow-toggle');
   const panel = widget.querySelector('.follow-panel');
   let pinned = false;
+  let autoOpened = false;
+  function openAtBottom() {
+    if (autoOpened) return;
+    const remaining = document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+    if (remaining <= 40) {
+      autoOpened = true;
+      pinned = true;
+      setOpen(true);
+    }
+  }
+  window.addEventListener('scroll', openAtBottom, { passive: true });
+  window.addEventListener('resize', openAtBottom);
+  window.addEventListener('load', openAtBottom);
+  window.addEventListener('pageshow', openAtBottom);
   function setOpen(open) {
     panel.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
